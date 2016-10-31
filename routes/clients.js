@@ -6,24 +6,30 @@ const User = require('../models/Client');
 router.route('/')
 .get( (req,res) => {
   let query = Client.find();
-  if (req.query.sort) {
-    query.sort(req.query.sort)
+  if(req.query.gender){
+    query.where('gender').equals(req.query.gender)
   }
-  if (req.query.limit){
-    query.limit(req.query.limit)
+  if(req.query.minage){
+    query.where('age').gt(req.query.minage)
   }
-  // if (req.query.page){
-  //   skip(page*pagesize).limit(pagesize)
-  // }
-  //let {page} = req.query
-  //skip(10) skip the first 10 pagination
-  // .sort('-name.last')  sortby lastname desending
-  // .limit(5)
-  //.select({
-//   age:true,
-//   gender:true,
-//   _id:false
-// }) return only certain fields
+  if(req.query.maxage){
+    query.where('age').lt(req.query.maxage)
+  }
+  if(req.query.allergies){
+    query.where('allergies').equals(req.query.allergies)
+  }
+  if(req.query.visitafter){
+    query.where('lastVisit').gt(req.query.visitafter)
+  }
+  if(req.query.visitbefore){
+    query.where('lastVisit').lt(req.query.visitbefore)
+  }
+  if (req.query.page || req.query.pagesize){
+    const pagesize = req.query.pagesize || 20 ;
+    const page = req.query.page || 1 ;
+    skip(page*pagesize).limit(pagesize)
+  }
+
   query
   .then(users => res.send(users))
   .catch( err => res.status(400).send(err))
