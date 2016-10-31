@@ -5,7 +5,7 @@ const clientSchema = new mongoose.Schema({
     last: { type: String, required : true }
   },
   age: { type: Number, min: 0, max: 120 },
-  allergies: [ {type: String, maxlength: 100} ]
+  allergies: [ {type: String, maxlength: 100} ],
   gender: { type: String, enum: ['male', 'female']},
   lastVisit:{ type: Date}
 })
