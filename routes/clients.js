@@ -28,9 +28,11 @@ router.route('/')
   if (req.query.page || req.query.pagesize){
     const pagesize = req.query.pagesize || 20 ;
     const page = req.query.page || 1 ;
-    skip(page*pagesize).limit(pagesize)
+    if(page>1){
+    query.skip(page*pagesize)
+   }
+    query.limit(pagesize)
   }
-
   query
   .then(users => res.send(users))
   .catch( err => res.status(400).send(err))
